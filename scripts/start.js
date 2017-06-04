@@ -36,6 +36,9 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 
 // Tools like Cloud9 rely on this.
 var DEFAULT_PORT = process.env.PORT || 3000;
+var deviceIP = process.env.STATUS_DEVICE_IP || 'localhost'; //192.168.2.11';
+var serverIP = process.env.STATUS_HOST_IP || 'localhost'; //192.168.2.11';
+console.log(deviceIP, DEFAULT_PORT);
 var compiler;
 var handleCompile;
 var devCliMessages = {};
@@ -91,7 +94,6 @@ function setupCompiler(host, port, protocol) {
       console.log(chalk.green('Compiled successfully!'));
     }
 
-    var deviceIP = process.env.IP || 'localhost';
     child.exec(
       "./node_modules/.bin/status-dev-cli watch $PWD" + BOT_DIR + " --ip " + deviceIP,
       {stdio: "inherit"},
@@ -309,7 +311,6 @@ function runDevServer(host, port, protocol) {
 }
 
 function addToStatus(dappUrl) {
-  var deviceIP = process.env.IP || '192.168.2.11'; // localhost';
   // var x = "./node_modules/.bin/status-dev-cli add --dappUrl " + dappUrl + " --botUrl " + (dappUrl + BOT_SITE_PATH) + " --ip " + deviceIP;
   var x = "./node_modules/.bin/status-dev-cli add --botUrl " + (dappUrl + BOT_SITE_PATH) + " --ip " + deviceIP;
   console.log(x);
@@ -325,9 +326,8 @@ function addToStatus(dappUrl) {
 
 function run(port) {
   var protocol = process.env.HTTPS === 'true' ? "https" : "http";
-  var host = 'localhost'; // we don't support other hosts at this moment
-  setupCompiler(host, port, protocol);
-  runDevServer(host, port, protocol);
+  setupCompiler(serverIP, port, protocol);
+  runDevServer(serverIP, port, protocol);
 }
 
 // We attempt to use the default port but if it is busy, we offer the user to
