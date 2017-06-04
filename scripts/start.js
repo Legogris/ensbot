@@ -309,9 +309,12 @@ function runDevServer(host, port, protocol) {
 }
 
 function addToStatus(dappUrl) {
-  var deviceIP = process.env.IP || 'localhost';
+  var deviceIP = process.env.IP || '192.168.2.11'; // localhost';
+  // var x = "./node_modules/.bin/status-dev-cli add --dappUrl " + dappUrl + " --botUrl " + (dappUrl + BOT_SITE_PATH) + " --ip " + deviceIP;
+  var x = "./node_modules/.bin/status-dev-cli add --botUrl " + (dappUrl + BOT_SITE_PATH) + " --ip " + deviceIP;
+  console.log(x);
   child.exec(
-    "./node_modules/.bin/status-dev-cli add --dappUrl " + dappUrl + " --botUrl " + (dappUrl + BOT_SITE_PATH) + " --ip " + deviceIP,
+    x,
     {stdio: "inherit"},
     function(error, stdout, stderr) {
       devCliMessages.stdout = stdout;
