@@ -45,7 +45,6 @@ var deviceIP = process.env.STATUS_DEVICE_IP || 'localhost'; //192.168.2.11';
 var serverIP = process.env.STATUS_HOST_IP || 'localhost'; //192.168.2.11';
 console.log(deviceIP, DEFAULT_PORT);
 var compiler;
-var botCompiler;
 var handleCompile;
 var devCliMessages = {};
 var BOT_DIR = "/bot"; // should start with slash
@@ -93,18 +92,7 @@ function rollupBot() {
     cache = bundle;
 
     fs.writeFileSync('public/bot.js', result.code);
-
-    // Alternatively, let Rollup do it for you
-    // (this returns a promise). This is much
-    // easier if you're generating a sourcemap
-    /*
-    return bundle.write({
-      format: 'iife',
-      dest: 'bundle.js'
-    });
-    */
   });
-
 }
 
 // You can safely remove this after ejecting.
