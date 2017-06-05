@@ -19,7 +19,8 @@ var getProcessForPort = require('react-dev-utils/getProcessForPort');
 var openBrowser = require('react-dev-utils/openBrowser');
 var prompt = require('react-dev-utils/prompt');
 var pathExists = require('path-exists');
-var config = require('../config/webpack.config.dev');
+var appConfig = require('../config/webpack.config.dev');
+var botConfig = require('../config/webpack.config.bot.dev');
 var paths = require('../config/paths');
 var child = require('child_process');
 
@@ -40,10 +41,12 @@ var deviceIP = process.env.STATUS_DEVICE_IP || 'localhost'; //192.168.2.11';
 var serverIP = process.env.STATUS_HOST_IP || 'localhost'; //192.168.2.11';
 console.log(deviceIP, DEFAULT_PORT);
 var compiler;
+var botCompiler;
 var handleCompile;
 var devCliMessages = {};
-var BOT_DIR = "/public/bot"; // should start with slash
-var BOT_SITE_PATH = "/bot/bot.js"; // should start with slash
+var BOT_DIR = "/bot"; // should start with slash
+var BOT_SITE_PATH = "/static/js/bundle.js"; // should start with slash
+// var BOT_SITE_PATH = "/bot.js"; // should start with slash
 
 // You can safely remove this after ejecting.
 // We only use this block for testing of Create React App itself:
@@ -61,7 +64,8 @@ if (isSmokeTest) {
 function setupCompiler(host, port, protocol) {
   // "Compiler" is a low-level interface to Webpack.
   // It lets us listen to some events and provide our own custom messages.
-  compiler = webpack(config, handleCompile);
+  compiler = webpack(appConfig, handleCompile);
+  botCompiler = webpack(botConfig, handleCompile);
 
   // "invalid" event fires when you have changed a file, and Webpack is
   // recompiling a bundle. WebpackDevServer takes care to pause serving the
@@ -69,7 +73,7 @@ function setupCompiler(host, port, protocol) {
   // "invalid" is short for "bundle invalidated", it doesn't imply any errors.
   compiler.plugin('invalid', function() {
     if (isInteractive) {
-      clearConsole();
+      // clearConsole();
     }
     console.log('Compiling...');
   });
@@ -80,8 +84,9 @@ function setupCompiler(host, port, protocol) {
   // Whether or not you have warnings or errors, you will get this event.
   compiler.plugin('done', function(stats) {
     if (isInteractive) {
-      clearConsole();
+      // clearConsole();
     }
+    console.log('DONE');
 
     // We have switched off the default Webpack output in WebpackDevServer
     // options so we are going to "massage" the warnings and errors and present
@@ -277,7 +282,7 @@ function runDevServer(host, port, protocol) {
     hot: true,
     // It is important to tell WebpackDevServer to use the same "root" path
     // as we specified in the config. In development, we always serve from /.
-    publicPath: config.output.publicPath,
+    publicPath: appConfig.output.publicPath,
     // WebpackDevServer is noisy by default so we emit custom message instead
     // by listening to the compiler events with `compiler.plugin` calls above.
     quiet: true,
@@ -301,7 +306,7 @@ function runDevServer(host, port, protocol) {
     }
 
     if (isInteractive) {
-        clearConsole();
+        // clearConsole();
         addToStatus("http://" + host + ":" + port);
         console.log();
     }
@@ -339,7 +344,7 @@ detect(DEFAULT_PORT).then(port => {
   }
 
   if (isInteractive) {
-    clearConsole();
+    // clearConsole();
     var existingProcess = getProcessForPort(DEFAULT_PORT);
     var question =
       chalk.yellow('Something is already running on port ' + DEFAULT_PORT + '.' +

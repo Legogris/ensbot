@@ -40,11 +40,11 @@ module.exports = {
     // the line below with these two lines if you prefer the stock client:
     // require.resolve('webpack-dev-server/client') + '?/',
     // require.resolve('webpack/hot/dev-server'),
-    require.resolve('react-dev-utils/webpackHotDevClient'),
+    //require.resolve('react-dev-utils/webpackHotDevClient'),
     // We ship a few polyfills by default:
-    require.resolve('./polyfills'),
+    // require.resolve('./polyfills'),
     // Finally, this is your app's code:
-    paths.appIndexJs
+    paths.botIndexJs,
     // We include the app code last so that if there is a runtime error during
     // initialization, it doesn't blow up the WebpackDevServer client, and
     // changing JS code would still trigger a refresh.
@@ -54,6 +54,7 @@ module.exports = {
     path: paths.appBuild,
     // Add /* filename */ comments to generated require()s in the output.
     pathinfo: true,
+    // library: 'bot',
     // This does not produce a real file. It's just the virtual path that is
     // served by WebpackDevServer in development. This is the JS bundle
     // containing code from all our entry points, and the Webpack runtime.
@@ -76,7 +77,7 @@ module.exports = {
     alias: {
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-      'react-native': 'react-native-web'
+      // 'react-native': 'react-native-web'
     }
   },
 
@@ -124,7 +125,7 @@ module.exports = {
       // Process JS with Babel.
       {
         test: /\.(js|jsx)$/,
-        include: paths.appSrc,
+        include: paths.botSrc,
         loader: 'babel',
         query: {
 
@@ -209,28 +210,32 @@ module.exports = {
     // Makes the public URL available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In development, this will be an empty string.
+    /*
     new InterpolateHtmlPlugin({
       PUBLIC_URL: publicUrl
     }),
+    */
     // Generates an `index.html` file with the <script> injected.
+    /*
     new HtmlWebpackPlugin({
       inject: true,
       template: paths.appHtml,
     }),
+    */
     // Makes some environment variables available to the JS code, for example:
     // if (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
     new webpack.DefinePlugin(env),
     // This is necessary to emit hot updates (currently CSS only):
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     // Watcher doesn't work well if you mistype casing in a path so we use
     // a plugin that prints an error when you attempt to do this.
     // See https://github.com/facebookincubator/create-react-app/issues/240
-    new CaseSensitivePathsPlugin(),
+    // new CaseSensitivePathsPlugin(),
     // If you require a missing module and then `npm install` it, you still have
     // to restart the development server for Webpack to discover it. This plugin
     // makes the discovery automatic so you don't have to restart.
     // See https://github.com/facebookincubator/create-react-app/issues/186
-    new WatchMissingNodeModulesPlugin(paths.appNodeModules)
+    // new WatchMissingNodeModulesPlugin(paths.appNodeModules)
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
