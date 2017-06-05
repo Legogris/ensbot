@@ -1,4 +1,23 @@
 
+//var registrar = Registrar.at("0x1234...")
+//var registry = Registry.at("0x...")
+function checkName(name){
+  return Registrar.entries(web3.sha3('name'))
+    .then(entries =>  entries[0])
+    .then(avail => {
+      switch(avail){
+        case: 0
+          return "available"
+        case: 1
+          return 'up for auction'
+        case: 5
+          return "not yet available for auction"
+        default:
+          return 'name is already taken'
+      }
+    })
+}
+
 
 status.addListener("on-message-send", function (params, context) {
     var result = {
@@ -8,12 +27,8 @@ status.addListener("on-message-send", function (params, context) {
         };
 
     try {
-        result["text-message"] = "Someone else likes balls";
-        if(params.message.toLowerCase() === 'but i like jason') {
-          result["text-message"] = "Fuck off"
-        } else if(params.message.toLowerCase() === 'fuck you too'){
-          result["text-message"] = "You shall die puny human"
-        }
+        //async request and set result to
+        result["text-message"] = "Try one of the commands to check, bid or reveal a domain";
     } catch (e) {
         result.err = e;
     }
@@ -41,7 +56,7 @@ status.command({
                          fontFamily: "font",
                          color: "black"
                      }
-                 }, "Searching for your domain name now");
+                 }, "Searching for your domain " + params.domain);
 
              return {markup: status.components.view({}, [text])};
          }

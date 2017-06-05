@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import SimpleStorageContract from '../build/contracts/SimpleStorage.json'
 import Config from '../truffle.js'
 import Web3 from 'web3'
+import RegistrarContract from '../build/contracts/Registrar.json'
 
 import './css/oswald.css'
 import './css/open-sans.css'
@@ -35,7 +36,10 @@ class App extends Component {
     const contract = require('truffle-contract')
     const simpleStorage = contract(SimpleStorageContract)
     simpleStorage.setProvider(provider)
-
+    const Registrar = contract(RegistrarContract)
+    Registrar.setProvider(provider)
+    console.log()
+    Registrar.deployed().then(registrar => console.log(registrar))
 
     // Get Web3 so we can get our accounts.
     const web3RPC = new Web3(provider)
