@@ -20,7 +20,6 @@ var openBrowser = require('react-dev-utils/openBrowser');
 var prompt = require('react-dev-utils/prompt');
 var pathExists = require('path-exists');
 var appConfig = require('../config/webpack.config.dev');
-var botConfig = require('../config/webpack.config.bot.dev');
 var paths = require('../config/paths');
 var child = require('child_process');
 
@@ -65,7 +64,6 @@ function setupCompiler(host, port, protocol) {
   // "Compiler" is a low-level interface to Webpack.
   // It lets us listen to some events and provide our own custom messages.
   compiler = webpack(appConfig, handleCompile);
-  botCompiler = webpack(botConfig, handleCompile);
 
   // "invalid" event fires when you have changed a file, and Webpack is
   // recompiling a bundle. WebpackDevServer takes care to pause serving the
