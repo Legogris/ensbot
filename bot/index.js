@@ -1,6 +1,5 @@
 //import SimpleStorageContract from '../build/contracts/SimpleStorage.json'
-// var SimpleStorageContract = require('../build/contracts/SimpleStorage.json');
-
+var SimpleStorageContract = require('../build/contracts/SimpleStorage.json');
 
 status.command({
  name: "hello",
@@ -22,7 +21,7 @@ try {
 
     try {
         //async request and set result to
-        result["text-message"] = "Try one of the commands to check, bid or reveal a domain";
+        result["text-message"] = "Try one of my commands to check, bid or reveal a domain";
     } catch (e) {
         result.err = e;
     }

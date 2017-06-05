@@ -22,6 +22,11 @@ var pathExists = require('path-exists');
 var appConfig = require('../config/webpack.config.dev');
 var paths = require('../config/paths');
 var child = require('child_process');
+var rollup = require( 'rollup' );
+var babel = require('rollup-plugin-babel');
+var commonjs = require('rollup-plugin-commonjs');
+var json = require('rollup-plugin-json');
+var fs = require('fs');
 
 var useYarn = pathExists.sync(paths.yarnLockFile);
 var cli = useYarn ? 'yarn' : 'npm';
@@ -45,7 +50,62 @@ var handleCompile;
 var devCliMessages = {};
 var BOT_DIR = "/bot"; // should start with slash
 // var BOT_SITE_PATH = "/static/js/bundle.js"; // should start with slash
-var BOT_SITE_PATH = "/require.js"; // should start with slash
+var BOT_SITE_PATH = "/bot.js"; // should start with slash
+var rollupCache;
+
+function rollupBot() {
+    // used to track the cache for subsequent bundles
+    rollup.rollup({
+      // The bundle's starting point. This file will be
+      // included, along with the minimum necessary code
+      // from its dependencies
+      entry: 'bot/index.js',
+      plugins: [
+        json({
+          // for tree-shaking, properties will be declared as
+          // variables, using either `var` or `const`
+          preferConst: false, // Default: false
+
+          // specify indentation for the generated default export —
+          // defaults to '\t'
+          indent: '  '
+        }),
+        commonjs(),
+        babel({
+          exclude: 'node_modules/**',
+          "presets": [["es2015", { "modules": false }]],
+          "plugins": ["external-helpers"]
+        })
+      ],
+      // If you have a bundle you want to re-use (e.g., when using a watcher to rebuild as files change),
+      // you can tell rollup use a previous bundle as its starting point.
+      // This is entirely optional!
+      cache: rollupCache
+  }).then( function ( bundle ) {
+    // Generate bundle + sourcemap
+    var result = bundle.generate({
+      // output format - 'amd', 'cjs', 'es', 'iife', 'umd'
+      moduleName: 'bot',
+      format: 'iife'
+    });
+
+    // Cache our bundle for later use (optional)
+    cache = bundle;
+
+    fs.writeFileSync('public/bot.js', result.code);
+
+    // Alternatively, let Rollup do it for you
+    // (this returns a promise). This is much
+    // easier if you're generating a sourcemap
+    /*
+    return bundle.write({
+      format: 'iife',
+      dest: 'bundle.js'
+    });
+    */
+  });
+
+}
 
 // You can safely remove this after ejecting.
 // We only use this block for testing of Create React App itself:
@@ -81,6 +141,7 @@ function setupCompiler(host, port, protocol) {
   // "done" event fires when Webpack has finished recompiling the bundle.
   // Whether or not you have warnings or errors, you will get this event.
   compiler.plugin('done', function(stats) {
+    rollupBot();
     if (isInteractive) {
       // clearConsole();
     }
