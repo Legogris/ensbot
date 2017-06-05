@@ -1426,15 +1426,15 @@ function getContent(name) {
 }
 
 export {
-  namehash
-  ensContract
-  ens
-  auctionRegistrarContract
-  ethRegistrar
-  deedContract
-  fifsRegistrarContract
-  resolverContract
-  getAddr
-  publicResolver
+  namehash,
+  ensContract,
+  ens,
+  auctionRegistrarContract,
+  ethRegistrar,
+  deedContract,
+  fifsRegistrarContract,
+  resolverContract,
+  getAddr,
+  publicResolver,
   reverseRegistrarContract
 }

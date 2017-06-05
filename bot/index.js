@@ -1,3 +1,5 @@
+//import SimpleStorageContract from '../build/contracts/SimpleStorage.json'
+// var SimpleStorageContract = require('../build/contracts/SimpleStorage.json');
 
 
 status.command({
@@ -10,12 +12,13 @@ status.command({
  }
 });
 
-status.addListener("on-message-send", function (params, context) {
-    var result = {
-            err: null,
-            data: null,
-            messages: []
-        };
+try {
+    status.addListener("on-message-send", function (params, context) {
+        var result = {
+                err: null,
+                data: null,
+                messages: []
+            };
 
     try {
         //async request and set result to
@@ -24,10 +27,10 @@ status.addListener("on-message-send", function (params, context) {
         result.err = e;
     }
 
-    return result;
-});
-
-
+        return result;
+    });
+} catch (e) {
+}
 
 // status.command({
 //      name: "check",

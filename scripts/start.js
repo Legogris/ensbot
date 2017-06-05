@@ -44,8 +44,8 @@ var botCompiler;
 var handleCompile;
 var devCliMessages = {};
 var BOT_DIR = "/bot"; // should start with slash
-var BOT_SITE_PATH = "/static/js/bundle.js"; // should start with slash
-// var BOT_SITE_PATH = "/bot.js"; // should start with slash
+// var BOT_SITE_PATH = "/static/js/bundle.js"; // should start with slash
+var BOT_SITE_PATH = "/require.js"; // should start with slash
 
 // You can safely remove this after ejecting.
 // We only use this block for testing of Create React App itself:
