@@ -1,18 +1,18 @@
-import { deedContract } from './services/ens'
-import { getOwner } from './registry'
+// import { deedContract } from './services/ens'
+// import { getOwner } from './registry'
 
 export function checkName(Registrar, Registry, name){
-  let avail = Registrar.entries(web3.sha3('name')
+  let avail = Registrar.entries(web3.sha3('name'))
 
   switch(avail){
-    case: 0
+    case 0:
       return "available"
-    case: 1
+    case 1:
       return 'up for auction'
-    case: 5
+    case 5:
       return "not yet available for auction"
     default:
-      let owner = getOwner(Registry, name)
+      let owner = Registry.getOwner(Registry, name)
       return 'name is already taken by ' + owner
   }
 }
@@ -42,8 +42,10 @@ export function revealBid(Registrar, name, bidAmount, secret){
   return Registrar.unsealBid(web3.sha3(name), web3.toWei(bidAmount, 'ether'), web3.sha3(secret), {from: web3.eth.accounts[0], gas: 500000});
 }
 
+/*
 export const checkCurrentWinner = (Registrar, name) =>
   deedContract.at(Registrar.entries(web3.sha3(name))[1]).owner()
+  */
 
 export const checkCurrentWinningBid = (Registrar, name) =>
   web3.fromWei(Registrar.entries(web3.sha3(name))[4], 'ether');

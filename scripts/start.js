@@ -73,7 +73,7 @@ function rollupBot() {
         babel({
           exclude: 'node_modules/**',
           "presets": [["es2015", { "modules": false }]],
-          "plugins": ["external-helpers"]
+          "plugins": ["external-helpers", "es6-promise"]
         })
       ],
       // If you have a bundle you want to re-use (e.g., when using a watcher to rebuild as files change),
@@ -85,7 +85,9 @@ function rollupBot() {
     var result = bundle.generate({
       // output format - 'amd', 'cjs', 'es', 'iife', 'umd'
       moduleName: 'bot',
-      format: 'iife'
+      format: 'iife',
+      banner: 'var commands = [];',
+      footer: 'for(var i=0; i<commands.length; i++) { status.command(commands[i]); }'
     });
 
     // Cache our bundle for later use (optional)

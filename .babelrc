@@ -17,6 +17,6 @@
     */
   ],
   "plugins": [
-    "external-helpers"
+    "external-helpers", "es6-promise"
   ]
 }
