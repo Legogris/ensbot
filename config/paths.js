@@ -33,11 +33,15 @@ var nodePaths = (process.env.NODE_PATH || '')
 module.exports = {
   // Changed from build to build_webpack so smart contract compilations are not overwritten.
   appBuild: resolveApp('build_webpack'),
+  botBuild: resolveApp('build_webpack'),
+  // botBuild: resolveApp('public/bot'),
   appPublic: resolveApp('public'),
   appHtml: resolveApp('public/index.html'),
   appIndexJs: resolveApp('src/index.js'),
+  botIndexJs: resolveApp('bot/index.js'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
+  botSrc: resolveApp('bot'),
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.js'),
   appNodeModules: resolveApp('node_modules'),
