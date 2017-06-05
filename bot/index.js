@@ -1,40 +1,4 @@
 
-//var registrar = Registrar.at("0x1234...")
-//var registry = Registry.at("0x...")
-// function checkName(name){
-//   return Registrar.entries(web3.sha3('name'))
-//     .then(entries =>  entries[0])
-//     .then(avail => {
-//       switch(avail){
-//         case: 0
-//           return "available"
-//         case: 1
-//           return 'up for auction'
-//         case: 5
-//           return "not yet available for auction"
-//         default:
-//           return 'name is already taken'
-//       }
-//     })
-// }
-
-
-status.addListener("on-message-send", function (params, context) {
-    var result = {
-            err: null,
-            data: null,
-            messages: []
-        };
-
-    try {
-        //async request and set result to
-        result["text-message"] = "Try one of the commands to check, bid or reveal a domain hello";
-    } catch (e) {
-        result.err = e;
-    }
-
-    return result;
-});
 
 status.command({
  name: "hello",
@@ -45,6 +9,25 @@ status.command({
  return status.components.text({}, "you’re saying hello");
  }
 });
+
+status.addListener("on-message-send", function (params, context) {
+    var result = {
+            err: null,
+            data: null,
+            messages: []
+        };
+
+    try {
+        //async request and set result to
+        result["text-message"] = "Try one of the commands to check, bid or reveal a domain";
+    } catch (e) {
+        result.err = e;
+    }
+
+    return result;
+});
+
+
 
 // status.command({
 //      name: "check",
