@@ -148,8 +148,10 @@ function setupCompiler(host, port, protocol) {
       console.log(chalk.green('Compiled successfully!'));
     }
 
+    var watchCommand = "./node_modules/.bin/status-dev-cli watch $PWD" + BOT_DIR + " $STATUS_WHISPER_ID --ip " + deviceIP;
+    console.log(watchCommand);
     child.exec(
-      "./node_modules/.bin/status-dev-cli watch $PWD" + BOT_DIR + " --ip " + deviceIP,
+      watchCommand,
       {stdio: "inherit"},
       function (error, stdout, stderr) {
         devCliMessages.stdout = stdout;

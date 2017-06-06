@@ -14,9 +14,9 @@ status.addListener('on-message-send', function (params, context) {
         //async request and set result to
         var c = web3.eth.contract(SimpleStorageContract.abi);
         var i = c.at(ssAddress);
-        i.set(5, {from: web3.eth.accounts[0]});
+        //i.set(5, {from: web3.eth.accounts[0]});
         // var val = simpleStorageInstance.get.call(web3.eth.accounts[0]);
-        result['text-message'] = val;
+        result['text-message'] = 'o hai brah!!';
         // result['text-message'] = simpleStorage.address;
     } catch (e) {
         result.err = e;
