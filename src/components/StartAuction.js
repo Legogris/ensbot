@@ -16,9 +16,12 @@ class StartAuction extends Component {
   render(){
     let { match, location } = this.props
     const query = parse(location.search.substr(1))
+    let split = query.domain.split('.'),
+        name;
+        name = split[0]
     let txId = ""
     if(this.state.started === false){
-      txId = ethRegistrar.startAuction(web3.sha3(query.domain), {from: web3.eth.accounts[0], gas: 1000000});
+      txId = ethRegistrar.startAuction(web3.sha3(name), {from: web3.eth.accounts[0], gas: 1000000});
       this.setState({
         started: true,
         txId
