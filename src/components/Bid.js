@@ -48,4 +48,4 @@ class Bid extends Component {
   }
 }
 
-export default StartAuction
+export default Bid
