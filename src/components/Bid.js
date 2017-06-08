@@ -1,6 +1,7 @@
 import React from 'react'
 import { parse } from 'qs'
 
+
 const Bid = ({ location, match }) => {
   const query = parse(location.search.substr(1))
   return <div>
