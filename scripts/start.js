@@ -36,11 +36,14 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 
 // Tools like Cloud9 rely on this.
 var DEFAULT_PORT = process.env.PORT || 3000;
+var hostIP = process.env.STATUS_HOST_IP || '127.0.0.1';
+var deviceIP = process.env.STATUS_DEVICE_IP;
+var whisperID = process.env.WHISPER_ID;
 var compiler;
 var handleCompile;
 var devCliMessages = {};
-var BOT_DIR = "/public/bot"; // should start with slash
-var BOT_SITE_PATH = "/bot/bot.js"; // should start with slash
+var WATCH_DIR = "/"; // should start with slash
+var BOT_SITE_PATH = "/public/bot.js"; // should start with slash
 
 // You can safely remove this after ejecting.
 // We only use this block for testing of Create React App itself:
@@ -66,7 +69,7 @@ function setupCompiler(host, port, protocol) {
   // "invalid" is short for "bundle invalidated", it doesn't imply any errors.
   compiler.plugin('invalid', function() {
     if (isInteractive) {
-      clearConsole();
+      // clearConsole();
     }
     console.log('Compiling...');
   });
@@ -77,7 +80,7 @@ function setupCompiler(host, port, protocol) {
   // Whether or not you have warnings or errors, you will get this event.
   compiler.plugin('done', function(stats) {
     if (isInteractive) {
-      clearConsole();
+      // clearConsole();
     }
 
     // We have switched off the default Webpack output in WebpackDevServer
@@ -91,9 +94,10 @@ function setupCompiler(host, port, protocol) {
       console.log(chalk.green('Compiled successfully!'));
     }
 
-    var deviceIP = process.env.IP || 'localhost';
+    var cmd = "./node_modules/.bin/status-dev-cli watch $PWD" + WATCH_DIR + "/public $STATUS_WHISPER_ID --ip " + deviceIP;
+    console.log(cmd);
     child.exec(
-      "./node_modules/.bin/status-dev-cli watch $PWD" + BOT_DIR + " --ip " + deviceIP,
+      cmd,
       {stdio: "inherit"},
       function (error, stdout, stderr) {
         devCliMessages.stdout = stdout;
@@ -101,6 +105,16 @@ function setupCompiler(host, port, protocol) {
       }
     );
 
+    cmd = "./node_modules/.bin/status-dev-cli watch $PWD" + WATCH_DIR + "/src $STATUS_WHISPER_ID --ip " + deviceIP;
+    console.log(cmd);
+    child.exec(
+      cmd,
+      {stdio: "inherit"},
+      function (error, stdout, stderr) {
+        devCliMessages.stdout = stdout;
+        devCliMessages.stderr = stderr;
+      }
+    );
     if (showInstructions) {
       console.log();
       console.log('The app is running at:');
@@ -299,7 +313,7 @@ function runDevServer(host, port, protocol) {
     }
 
     if (isInteractive) {
-        clearConsole();
+        // clearConsole();
         addToStatus("http://" + host + ":" + port);
         console.log();
     }
@@ -309,9 +323,10 @@ function runDevServer(host, port, protocol) {
 }
 
 function addToStatus(dappUrl) {
-  var deviceIP = process.env.IP || 'localhost';
+  var cmd = "./node_modules/.bin/status-dev-cli add --dappUrl " + dappUrl + " --botUrl " + (dappUrl + BOT_SITE_PATH) + " --ip " + deviceIP;
+  console.log(cmd);
   child.exec(
-    "./node_modules/.bin/status-dev-cli add --dappUrl " + dappUrl + " --botUrl " + (dappUrl + BOT_SITE_PATH) + " --ip " + deviceIP,
+    cmd,
     {stdio: "inherit"},
     function(error, stdout, stderr) {
       devCliMessages.stdout = stdout;
@@ -322,7 +337,7 @@ function addToStatus(dappUrl) {
 
 function run(port) {
   var protocol = process.env.HTTPS === 'true' ? "https" : "http";
-  var host = 'localhost'; // we don't support other hosts at this moment
+  var host = hostIP; // we don't support other hosts at this moment
   setupCompiler(host, port, protocol);
   runDevServer(host, port, protocol);
 }
@@ -336,7 +351,7 @@ detect(DEFAULT_PORT).then(port => {
   }
 
   if (isInteractive) {
-    clearConsole();
+    // clearConsole();
     var existingProcess = getProcessForPort(DEFAULT_PORT);
     var question =
       chalk.yellow('Something is already running on port ' + DEFAULT_PORT + '.' +
