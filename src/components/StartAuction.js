@@ -14,7 +14,7 @@ class StartAuction extends Component {
     }
   }
   render(){
-    let { match, location } = this.props
+    let { location } = this.props
     const query = parse(location.search.substr(1))
     let split = query.domain.split('.'),
         name;

@@ -1387,7 +1387,8 @@ export var reverseRegistrarContract = web3.eth.contract([
     "type": "constructor"
   }
 ]);
-var reverseRegistrar = reverseRegistrarContract.at(ens.owner(namehash('addr.reverse')));
+
+export const reverseRegistrar = reverseRegistrarContract.at(ens.owner(namehash('addr.reverse')));
 
 export function getAddr(name) {
   var node = namehash(name)
