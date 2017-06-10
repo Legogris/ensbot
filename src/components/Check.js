@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { parse } from 'qs'
 import web3 from '../web3'
 import { ethRegistrar, deedContract } from '../ensutils'
@@ -6,13 +6,13 @@ import moment from 'moment'
 
 const Check = ({ location, match }) => {
   const query = parse(location.search.substr(1))
-  const name = query.domain.split('.')[0]
-  const availability = parseInt(ethRegistrar.entries(web3.sha3(name))[0].toString())
+  const name = query.domain
+  const availability = parseInt(ethRegistrar.entries(web3.sha3(query.domain))[0].toString(), 10)
   let content = null
   console.log(availability)
   switch (availability) {
     case 0:
-      content = <div>Domain is available!</div>
+      content = <div>{name} is available!</div>
       break;
     case 1:
       let owner = deedContract.at(ethRegistrar.entries(web3.sha3(name))[1]).owner();
@@ -47,10 +47,10 @@ const Check = ({ location, match }) => {
       </div>
       break;
     case 5:
-      content = <div>Domain is not available to bid yet!</div>
+      content = <div>{name} is not available to bid yet!</div>
       break;
     default:
-      content = <div>Domain is taken!</div>
+      content = <div>{name} is taken!</div>
       break;
   }
   return <div>
