@@ -7,8 +7,9 @@ import moment from 'moment'
 
 const Check = ({ location, match }) => {
   const query = parse(location.search.substr(1))
-  const name = query.domain
-  const availability = parseInt(ethRegistrar.entries(web3.sha3(query.domain))[0].toString(), 10)
+  const name = query.domain.split('.')[0]
+  const availability = parseInt(ethRegistrar.entries(web3.sha3(name))[0].toString(), 10)
+  console.log(ethRegistrar.entries(web3.sha3(query.domain))[0])
   let content = null
   console.log(availability)
   switch (availability) {
