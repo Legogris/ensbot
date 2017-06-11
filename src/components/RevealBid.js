@@ -23,7 +23,6 @@ class RevealBid extends Component {
         name = split[0]
 
     if(this.state.started === false){
-      let bid = ethRegistrar.shaBid(web3.sha3(name), web3.eth.accounts[0], web3.toWei(bidAmount, 'ether'), web3.sha3(secret));
       txId = ethRegistrar.unsealBid(web3.sha3(name), web3.toWei(bidAmount, 'ether'), web3.sha3(secret), {from: web3.eth.accounts[0], gas: 500000});
       this.setState({
         started: true,
