@@ -20,8 +20,9 @@ class StartAuction extends Component {
         name;
         name = split[0]
     let txId = ""
+    const self = this;
     if(this.state.started === false){
-      txId = ethRegistrar.startAuction(web3.sha3(name), {from: web3.eth.accounts[0], gas: 1000000});
+      txId = ethRegistrar.startAuction(web3.sha3(name), {from: web3.eth.accounts[0], gas: 2000000});
       this.setState({
         started: true,
         txId
@@ -29,7 +30,7 @@ class StartAuction extends Component {
       let interval = setInterval(()=>{
         let tx = web3.eth.getTransaction(txId)
         if(tx.blockNumber !== null){
-          this.setState({
+          self.setState({
             pending: true,
             txId
           })
@@ -40,7 +41,16 @@ class StartAuction extends Component {
 
     return <div>
       Started auction for {query.domain} with the txId <a href={`https://ropsten.etherscan.io/tx/${this.state.txId}`}>{this.state.txId}</a>
-      {this.state.pending ? <div>Transaction has been mined and auction has been started!</div> : <div>Waiting for Transaction to be mined<Loader /></div>}
+      {this.state.pending
+        ? <div>
+           Transaction has been mined and auction has been started!
+           <form onsubmit={this.bid}>
+             <input type="number" placeholder="price" /><br />
+             <input type="text" placeholder="secret" /><br />
+             <input type="submit" value="place bid" />
+           </form>
+         </div>
+        : <div>Waiting for Transaction to be mined<Loader /></div>}
     </div>
   }
 }

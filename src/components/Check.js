@@ -49,6 +49,11 @@ const Check = ({ location, match }) => {
         <div>Reveal begins: {revealBegins.format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
         <div>Auction begins: {auctionEnd.format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
         {revealInfo}
+        <form onsubmit={this.bid}>
+          <input type="number" placeholder="price" /><br />
+          <input type="text" placeholder="secret" /><br />
+          <input type="submit" value="place bid" />
+        </form>
       </div>
       break;
     case 5:
