@@ -4,6 +4,7 @@ import { parse } from 'qs'
 import web3 from '../web3'
 import { ethRegistrar, deedContract } from '../ensutils'
 import moment from 'moment'
+import BidForm from './BidForm'
 
 class Check extends Component {
   constructor(){
