@@ -23,8 +23,8 @@ class Check extends Component {
     switch (availability) {
       case 0:
         content = <div>
-          <div>{name} is available!</div>
-          <Link to={'/startauction?domain=' + name}>Start auction</Link>
+          <div><strong>{name}</strong> is available!</div>
+          <Link className="btn btn-primary" to={'/startauction?domain=' + name}>Start auction</Link>
         </div>
         break;
       case 1:
