@@ -273,7 +273,7 @@ function addMiddleware(devServer) {
   // Finally, by now we have certainly resolved the URL.
   // It may be /index.html, so let the dev server try serving it again.
   devServer.use(function(req, res, next) {
-    console.log(req);
+    // console.log(req);
     next();
   });
   devServer.use(devServer.middleware);
@@ -343,7 +343,8 @@ function runDevServer(host, port, protocol) {
 }
 
 function addToStatus(dappUrl) {
-  var cmd = "./node_modules/.bin/status-dev-cli add --dappUrl " + dappUrl + " --botUrl " + (dappUrl + BOT_SITE_PATH) + " --ip " + deviceIP;
+  // var cmd = "./node_modules/.bin/status-dev-cli add --dappUrl " + dappUrl + " --botUrl " + (dappUrl + BOT_SITE_PATH) + " --ip " + deviceIP;
+  var cmd = "./node_modules/.bin/status-dev-cli add  --botUrl " + (dappUrl + BOT_SITE_PATH) + " --ip " + deviceIP;
   console.log(cmd);
   child.exec(
     cmd,
