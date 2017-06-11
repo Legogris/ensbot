@@ -13,9 +13,9 @@ class BidForm extends Component {
       const { name } = this.props;
       return (
         <form>
-            <input type="number" placeholder="price" value={this.state.price} onChange={e => { this.setState({price: e.target.value})}} /><br />
-            <input type="password" value={this.state.secret} onChange={e => { this.setState({secret: e.target.value})}} /><br />
-            <Link to={`/bid/?domain=${name}&secret=${this.state.secret}&bidAmount=${this.state.price}`}>Bid</Link>
+            <input className="form-control" type="number" placeholder="price" value={this.state.price} onChange={e => { this.setState({price: e.target.value})}} /><br />
+            <input className="form-control" type="password" value={this.state.secret} onChange={e => { this.setState({secret: e.target.value})}} /><br />
+            <Link className="btn btn-primary" to={`/bid/?domain=${name}&secret=${this.state.secret}&bidAmount=${this.state.price}`}>Bid</Link>
         </form>);
   }
 }

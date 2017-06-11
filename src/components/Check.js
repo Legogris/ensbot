@@ -40,11 +40,11 @@ class Check extends Component {
         if(moment().isBefore(revealBegins)){
           stage = 'bid'
           let hours = revealBegins.diff(moment(), 'hours')
-          timeLeft = <div>{hours} hours left til the reveal stage starts</div>
+          timeLeft = <div><strong>{hours} hours</strong> left until reveal stage starts</div>
         } else if(moment().isAfter(revealBegins)){
           stage = 'reveal'
           let hours = auctionEnd.diff(moment(), 'hours')
-          timeLeft = <div>{hours} hours left til auction end</div>
+          timeLeft = <div><strong>{hours} hours</strong> left unttil auction end</div>
           revealInfo = <div>
             Current winner is: {JSON.stringify(owner)}
             Current winning bid is: {JSON.stringify(amount)}
@@ -52,16 +52,12 @@ class Check extends Component {
         }
 
         content = <div>
-          <div className="stage section">Domain is currently up for auction and in the {stage} stage</div>
+          <div className="stage section"><strong>{name}</strong> is currently up for auction in the <strong>{stage}</strong> stage</div>
           <div className="timeleft section">{timeLeft}</div>
           <div className="reveal-period section">Reveal begins: {revealBegins.format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
           <div className="auction-period section">Auction begins: {auctionEnd.format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
           {revealInfo}
-          <form onSubmit={this.bid}>
-            <input type="number" placeholder="price" /><br />
-            <input type="text" placeholder="secret" /><br />
-            <input type="submit" value="place bid" />
-          </form>
+          <BidForm name={name} />
         </div>
         break;
       case 5:

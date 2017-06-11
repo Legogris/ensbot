@@ -4,7 +4,7 @@ function getNameSuggestions() {
 }
 // Kudos to @makoto
 function browse(command, params){
-  var host = 'http://192.168.43.94:3000/'
+  var host = 'http://192.168.43.44:3000/'
   // var host = 'http://192.168.0.156:3000/'
   // var host = 'http://genesis-token-tracker.s3-website-us-west-2.amazonaws.com/'
   var url = host + command + '?';
