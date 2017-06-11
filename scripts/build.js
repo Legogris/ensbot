@@ -137,6 +137,7 @@ function build(previousSizeMap) {
      printErrors('Failed to compile.', stats.compilation.warnings);
      process.exit(1);
    }
+   syncIndex();
 
     console.log(chalk.green('Compiled successfully.'));
     console.log();
@@ -222,3 +223,16 @@ function copyPublicFolder() {
     filter: file => file !== paths.appHtml
   });
 }
+
+function syncIndex() {
+  ['check', 'startauction', 'startauctionandbid', 'bid', 'revealbid'].map(dir => {
+    var path = paths.appBuild + '/' + dir;
+    if(!fs.existsSync(path)) {
+      fs.mkdirSync(path);
+    }
+    fs.copySync(paths.appBuild + '/index.html', path + '/index.html', {
+      dereference: true
+    });
+  });
+}
+

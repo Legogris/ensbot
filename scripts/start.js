@@ -196,11 +196,26 @@ function onProxyError(proxy) {
 function addMiddleware(devServer) {
   // `proxy` lets you to specify a fallback server during development.
   // Every unrecognized request will be forwarded to it.
+  devServer.use(function(req, res, next) {
+    req.headers['Accept'] = '*/*';
+    req.headers['accept'] = '*/*';
+    req.accept = '*/*';
+    req.Accept = '*/*';
+    next();
+  });
   var proxy = require(paths.appPackageJson).proxy;
   devServer.use(historyApiFallback({
     // Paths with dots should still use the history fallback.
     // See https://github.com/facebookincubator/create-react-app/issues/387.
     disableDotRule: true,
+    rewrites: [
+        // shows views/landing.html as the landing page
+        { from: /./, to: '/index.html' },
+        // shows views/subpage.html for all routes starting with /subpage
+        // { from: /^\/subpage/, to: '/views/subpage.html' },
+        // shows views/404.html on all other pages
+        // { from: /./, to: '/views/404.html' },
+    ],
     // For single page apps, we generally want to fallback to /index.html.
     // However we also want to respect `proxy` for API calls.
     // So if `proxy` is specified, we need to decide which fallback to use.
@@ -208,9 +223,9 @@ function addMiddleware(devServer) {
     // Modern browsers include text/html into `accept` header when navigating.
     // However API calls like `fetch()` won’t generally accept text/html.
     // If this heuristic doesn’t work well for you, don’t use `proxy`.
-    htmlAcceptHeaders: proxy ?
-      ['text/html'] :
-      ['text/html', '*/*']
+    // htmlAcceptHeaders: proxy ?
+    //   ['text/html'] :
+    //   ['text/html', '*/*']
   }));
   if (proxy) {
     if (typeof proxy !== 'string') {
@@ -237,6 +252,7 @@ function addMiddleware(devServer) {
         // Browers may send Origin headers even with same-origin
         // requests. To prevent CORS issues, we have to change
         // the Origin to match the target URL.
+        console.log('PROXY REQUEST')
         if (proxyReq.getHeader('origin')) {
           proxyReq.setHeader('origin', proxy);
         }
@@ -246,7 +262,7 @@ function addMiddleware(devServer) {
       changeOrigin: true,
       ws: true
     });
-    devServer.use(mayProxy, hpm);
+    // devServer.use(mayProxy, hpm);
 
     // Listen for the websocket 'upgrade' event and upgrade the connection.
     // If this is not done, httpProxyMiddleware will not try to upgrade until
@@ -256,13 +272,17 @@ function addMiddleware(devServer) {
 
   // Finally, by now we have certainly resolved the URL.
   // It may be /index.html, so let the dev server try serving it again.
+  devServer.use(function(req, res, next) {
+    // console.log(req);
+    next();
+  });
   devServer.use(devServer.middleware);
 }
 
 function runDevServer(host, port, protocol) {
   var devServer = new WebpackDevServer(compiler, {
     // Enable gzip compression of generated files.
-    // compress: true,
+    compress: true,
     // Silence WebpackDevServer's own logs since they're generally not useful.
     // It will still show compile warnings and errors with this setting.
     clientLogLevel: 'warning',
@@ -323,7 +343,8 @@ function runDevServer(host, port, protocol) {
 }
 
 function addToStatus(dappUrl) {
-  var cmd = "./node_modules/.bin/status-dev-cli add --dappUrl " + dappUrl + " --botUrl " + (dappUrl + BOT_SITE_PATH) + " --ip " + deviceIP;
+  // var cmd = "./node_modules/.bin/status-dev-cli add --dappUrl " + dappUrl + " --botUrl " + (dappUrl + BOT_SITE_PATH) + " --ip " + deviceIP;
+  var cmd = "./node_modules/.bin/status-dev-cli add  --botUrl " + (dappUrl + BOT_SITE_PATH) + " --ip " + deviceIP;
   console.log(cmd);
   child.exec(
     cmd,

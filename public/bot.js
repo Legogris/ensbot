@@ -4,7 +4,8 @@ function getNameSuggestions() {
 }
 // Kudos to @makoto
 function browse(command, params){
-  var host = 'http://192.168.0.156:3000/'
+  var host = 'http://192.168.43.44:3000/'
+  // var host = 'http://192.168.0.156:3000/'
   // var host = 'http://genesis-token-tracker.s3-website-us-west-2.amazonaws.com/'
   var url = host + command + '?';
   for(var key in params) {
@@ -15,7 +16,9 @@ function browse(command, params){
     dynamicTitle: true,
     singleLineInput: true,
     actions: [ { type: status.actions.FULLSCREEN } ],
-    markup: status.components.bridgedWebView(url)
+    markup: status.components.bridgedWebView(url),
+    // markup: status.components.webView(url),
+    fullscreen: true
   };
 }
 
@@ -36,6 +39,7 @@ status.addListener('on-message-send', function (params, context) {
     return result;
 });
 
+
 status.command({
      name: 'check',
      title: 'check',
@@ -45,13 +49,15 @@ status.command({
         name: 'domain',
         type: status.types.TEXT,
         placeholder: 'vitalik.eth'
+      
       }],
      preview: function (params) {
-       status.sendMessage('Searching for your domain ' + params.domain + '...');
+       // status.sendMessage('Searching for your domain ' + params.domain + '...');
        return(browse('check', { domain: params.domain }));
      }
  });
 
+/*
 status.command({
      name: 'startAuction',
      title: 'Start auction',
@@ -88,3 +94,60 @@ status.command({
        return(browse('bid', { domain: params.domain, price: params.price }));
      }
  });
+
+*/
+
+/*
+function suggestionsContainerStyle(suggestionsCount) {
+    return {
+        marginVertical: 1,
+        marginHorizontal: 0,
+        keyboardShouldPersistTaps: "always",
+        height: Math.min(150, (56 * suggestionsCount)),
+        backgroundColor: "white",
+        borderRadius: 5,
+        flexGrow: 1
+    };
+}
+var suggestionSubContainerStyle = {
+    height: 56,
+    borderBottomWidth: 1,
+    borderBottomColor: "#0000001f"
+};
+
+var valueStyle = {
+    marginTop: 9,
+    fontSize: 14,
+    fontFamily: "font",
+    color: "#000000de"
+};
+
+function helloSuggestions() {
+    var host = 'http://192.168.43.44:3000/'
+    // var host = 'http://192.168.0.156:3000/'
+    // var host = 'http://genesis-token-tracker.s3-website-us-west-2.amazonaws.com/'
+    var url = host + command + '?';
+    for(var key in params) {
+        url += key + '=' + params[key] + '&';
+    }
+    var suggestions = ["Hello", "Goodbye"].map(function(entry) {
+        return status.components.touchable(
+            {onPress: status.components.dispatch([status.events.SET_VALUE, entry])},
+            status.components.view(
+                suggestionsContainerStyle,
+                [
+                        status.components.webView(url)
+                ]
+            )
+        );
+    });
+    // Let's wrap those two touchable buttons in a scrollView
+    var view = status.components.scrollView(
+        suggestionsContainerStyle(2),
+        suggestions
+    );
+
+    // Give back the whole thing inside an object.
+    return {markup: view};
+}
+*/
