@@ -23,7 +23,7 @@ function browse(command, params){
 }
 
 status.addListener('on-message-send', function (params, context) {
-    status.sendMessage('onmessagesend');
+    // status.sendMessage('onmessagesend');
     var result = {
             err: null,
             data: null,
@@ -31,7 +31,7 @@ status.addListener('on-message-send', function (params, context) {
     };
 
     try {
-        result['text-message'] = 'hello';
+        result['text-message'] = 'Hello there! Try using of of my commands.';
     } catch (e) {
         result.err = e;
     }
@@ -68,12 +68,11 @@ status.command({
         placeholder: 'vitalik.eth'
       }],
      preview: function (params) {
-       status.sendMessage('Starting auction for domain' + params.domain + '...');
+       // status.sendMessage('Starting auction for domain ' + params.domain + '...');
        return(browse('startauction', { domain: params.domain }));
      }
  });
 
-/*
 status.command({
      name: 'bid',
      title: 'Bid on auction',
@@ -88,14 +87,17 @@ status.command({
         name: 'price',
         type: status.types.NUMBER,
         placeholder: 1
+      }, {
+        name: 'secret',
+        type: status.types.TEXT,
+        placeholder: 'SECRET'
       }],
      preview: function (params) {
        status.sendMessage('Bidding ' + params.price + ' for ' + params.domain + '...');
-       return(browse('bid', { domain: params.domain, price: params.price }));
+       return(browse('bid', { domain: params.domain, bidAmount: params.price, secret: params.secret }));
      }
  });
 
-*/
 
 /*
 function suggestionsContainerStyle(suggestionsCount) {
