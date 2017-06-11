@@ -25,9 +25,9 @@ function browse(command, params){
 status.addListener('on-message-send', function (params, context) {
     // status.sendMessage('onmessagesend');
     var result = {
-            err: null,
-            data: null,
-            messages: []
+        err: null,
+        data: null,
+        messages: []
     };
 
     try {
