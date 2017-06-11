@@ -73,6 +73,7 @@ recursive(paths.appBuild, (err, fileNames) => {
 
   // Merge with the public folder
   copyPublicFolder();
+  syncIndex();
 });
 
 // Print a detailed summary of build files.
@@ -222,3 +223,16 @@ function copyPublicFolder() {
     filter: file => file !== paths.appHtml
   });
 }
+
+function syncIndex() {
+  ['check', 'startauction', 'startauctionandbid', 'bid', 'revealbid'].map(dir => {
+    var path = paths.appBuild + '/' + dir;
+    if(!fs.existsSync(path)) {
+      fs.mkdirSync(path);
+    }
+    fs.copySync(paths.appHtml, path + '/index.html', {
+      dereference: true
+    });
+  });
+}
+
