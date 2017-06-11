@@ -2,6 +2,7 @@
   "name": "ourdapp",
   "version": "0.1.1",
   "private": true,
+  "homepage": "https://ensbot.legogris.se",
   "devDependencies": {
     "autoprefixer": "6.5.1",
     "babel-core": "6.17.0",

@@ -73,7 +73,6 @@ recursive(paths.appBuild, (err, fileNames) => {
 
   // Merge with the public folder
   copyPublicFolder();
-  syncIndex();
 });
 
 // Print a detailed summary of build files.
@@ -138,6 +137,7 @@ function build(previousSizeMap) {
      printErrors('Failed to compile.', stats.compilation.warnings);
      process.exit(1);
    }
+   syncIndex();
 
     console.log(chalk.green('Compiled successfully.'));
     console.log();
@@ -230,7 +230,7 @@ function syncIndex() {
     if(!fs.existsSync(path)) {
       fs.mkdirSync(path);
     }
-    fs.copySync(paths.appHtml, path + '/index.html', {
+    fs.copySync(paths.appBuild + '/index.html', path + '/index.html', {
       dereference: true
     });
   });
