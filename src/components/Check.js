@@ -51,15 +51,15 @@ class Check extends Component {
 
 
 
-        content = <div>Domain is currently up for auction and in the {stage} stage
+        content = <div>Domain {name} is currently up for auction and in the {stage} stage
           <div>{timeLeft}</div>
           <div>Reveal begins: {revealBegins.format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
           <div>Auction begins: {auctionEnd.format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
           {revealInfo}
-          <form onsubmit={this.bid}>
-            <input type="number" placeholder="price" /><br />
-            <input type="text" placeholder="secret" /><br />
-            <input type="submit" value="place bid" />
+          <form>
+            <input type="number" placeholder="price" value={this.state.price} onChange={e => { this.setState({price: e.target.value})}} /><br />
+            <input type="password" value={this.state.secret} onChange={e => { this.setState({secret: e.target.value})}} /><br />
+            <Link to={`/bid/?domain=${name}&secret=${this.state.secret}&bidAmount=${this.state.price}`}>Bid</Link>
           </form>
         </div>
         break;
