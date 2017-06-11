@@ -3,7 +3,7 @@
 This is a simple dapp / bot to participate in auctions for .eth names on ENS via Status.
 Very alpha. Such bleeding edge. Wow.
 
-https://www.youtube.com/watch?v=dC3ZD_xDk2Y
+https://www.youtube.com/watch?v=mUtxNbbs0jU
 
 Submission: https://github.com/status-im/hackathon/issues/36
 
