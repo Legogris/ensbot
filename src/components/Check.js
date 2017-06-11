@@ -42,12 +42,11 @@ const Check = ({ location, match }) => {
         </div>
       }
 
-
-
-      content = <div>Domain is currently up for auction and in the {stage} stage
-        <div>{timeLeft}</div>
-        <div>Reveal begins: {revealBegins.format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
-        <div>Auction begins: {auctionEnd.format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
+      content = <div>
+        <div className="stage section">Domain is currently up for auction and in the {stage} stage</div>
+        <div className="timeleft section">{timeLeft}</div>
+        <div className="reveal-period section">Reveal begins: {revealBegins.format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
+        <div className="auction-period section">Auction begins: {auctionEnd.format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
         {revealInfo}
       </div>
       break;
