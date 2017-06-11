@@ -1,4 +1,5 @@
-import React from 'react'
+import React  from 'react'
+import { Link } from 'react-router-dom'
 import { parse } from 'qs'
 import web3 from '../web3'
 import { ethRegistrar, deedContract } from '../ensutils'
@@ -12,7 +13,10 @@ const Check = ({ location, match }) => {
   console.log(availability)
   switch (availability) {
     case 0:
-      content = <div>{name} is available!</div>
+      content = <div>
+        <div>{name} is available!</div>
+        <Link to={'/startauction?domain=' + name}>Start auction</Link>
+      </div>
       break;
     case 1:
       let owner = deedContract.at(ethRegistrar.entries(web3.sha3(name))[1]).owner();
