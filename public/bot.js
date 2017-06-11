@@ -57,7 +57,6 @@ status.command({
      }
  });
 
-/*
 status.command({
      name: 'startAuction',
      title: 'Start auction',
@@ -74,6 +73,7 @@ status.command({
      }
  });
 
+/*
 status.command({
      name: 'bid',
      title: 'Bid on auction',
