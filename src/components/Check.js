@@ -4,6 +4,7 @@ import { parse } from 'qs'
 import web3 from '../web3'
 import { ethRegistrar, deedContract } from '../ensutils'
 import moment from 'moment'
+import BidForm from './BidForm'
 
 class Check extends Component {
   constructor(){
@@ -56,11 +57,7 @@ class Check extends Component {
           <div>Reveal begins: {revealBegins.format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
           <div>Auction begins: {auctionEnd.format("dddd, MMMM Do YYYY, h:mm:ss a")}</div>
           {revealInfo}
-          <form>
-            <input type="number" placeholder="price" value={this.state.price} onChange={e => { this.setState({price: e.target.value})}} /><br />
-            <input type="password" value={this.state.secret} onChange={e => { this.setState({secret: e.target.value})}} /><br />
-            <Link to={`/bid/?domain=${name}&secret=${this.state.secret}&bidAmount=${this.state.price}`}>Bid</Link>
-          </form>
+          <BidForm name={name} />
         </div>
         break;
       case 5:
